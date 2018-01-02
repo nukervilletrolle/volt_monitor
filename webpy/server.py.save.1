@@ -1,0 +1,17 @@
+#!/usr/bin/python
+import web
+
+urls = (
+     '/', 'index'
+)
+
+class index:
+	def GET(self):
+		return "Hi Kay, you're on my server!"
+
+data = open("voltage.txt","r")
+
+if __name__ == "__main__":
+	app = web.application(urls, globals())
+	app.run()
+pr

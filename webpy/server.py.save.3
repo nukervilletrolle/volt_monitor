@@ -1,0 +1,24 @@
+#!/usr/bin/python
+import web
+
+urls = (
+     '/', 'index'
+)
+
+class index:
+	def GET(self):
+		data = open(","r")
+		last_line = data.readlines()[-1]
+		voltage = int(last_line[0:3])
+		data.close()
+		if voltage == 0:
+			voltage == 1
+		voltage = float(voltage * 5)
+		voltage = voltage / 1023 #A/D conversion
+		voltage = voltage * (16/5) #resistive divider
+		voltage = voltage * 0.925 #correction factor
+		return voltage
+
+if __name__ == "__main__":
+	app = web.application(urls, globals())
+	app.run()
