@@ -1,5 +1,5 @@
 /******************************************************************************
-spitest.cpp
+spiread.cpp
 Raspberry Pi Data Read
 Stephen Nawrocki>
 12/17/2017
