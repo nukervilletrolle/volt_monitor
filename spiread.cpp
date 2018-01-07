@@ -62,6 +62,11 @@ static const int CHANNEL = 1;
 int main()
 {
    int voltavg;
+    
+   // Configure the interface.
+   // CHANNEL insicates chip select,
+   fd = wiringPiSPISetup(CHANNEL, 125000);
+    
    while(1)
    {
       voltavg = readvoltage();
@@ -95,10 +100,6 @@ int readvoltage()
    long voltage;
    long avg[4];
    unsigned char buffer[3];
-
-   // Configure the interface.
-   // CHANNEL insicates chip select,
-   fd = wiringPiSPISetup(CHANNEL, 125000);
 
    buffer[0] = 0x76;
    wiringPiSPIDataRW(CHANNEL, buffer, 1);
