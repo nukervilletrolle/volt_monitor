@@ -1,5 +1,5 @@
 /******************************************************************************
-spitest.cpp
+spiread.cpp
 Raspberry Pi Data Read
 Stephen Nawrocki>
 12/17/2017
@@ -65,7 +65,7 @@ int main()
     
    // Configure the interface.
    // CHANNEL insicates chip select,
-   fd = wiringPiSPISetup(CHANNEL, 125000);
+   wiringPiSPISetup(CHANNEL, 125000);
     
    while(1)
    {
