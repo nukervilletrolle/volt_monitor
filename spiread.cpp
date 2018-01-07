@@ -1,5 +1,5 @@
 /******************************************************************************
-spiread.cpp
+spitest.cpp
 Raspberry Pi Data Read
 Stephen Nawrocki>
 12/17/2017
@@ -70,7 +70,7 @@ int main()
    while(1)
    {
       voltavg = readvoltage();
-      ofstream out("voltage.txt", std::ios_base::app);
+      ofstream out("/home/pi/voltage.txt", std::ios_base::app);
       out << InttoStr(voltavg) << "	" << getTime();
       out.close();
    }
