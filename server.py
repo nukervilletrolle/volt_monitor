@@ -27,26 +27,28 @@ class images:
 class index2:
 	def GET(self):
 	    data = open("voltage.txt","r")
-	    last_line = data.readlines()[5000:5300]
-	    last_data = last_line[-1]
-	    if last_data[0] != "0":
-		voltage = int(last_data[0:3])
-		voltage = voltage - 1
-                voltage = float(voltage * 5)
-                voltage = voltage / 1023
-                voltage = voltage * (16/5)
-                voltage = voltage * 0.9165
+	    file_array = data.readlines()[-3001:-1]
+	    last_data = file_array[-1]
+	    if last_data[0] != "0":	
                 #gather plot data
                 i = 1
                 plotarray = []
                 tdata = []
-                len_data = len(last_line)
+                len_data = len(file_array)
                 while i < len_data:
+                    voltage = int(last_data[0:3])
+                    voltage = voltage - 1
+                    voltage = float(voltage * 5)
+                    voltage = voltage / 1023
+                    voltage = voltage * (16/5)
+                    voltage = voltage * 0.9165
                     #j = (5760 - i)
-                    plot_point = last_line[i]
-                    plotarray.append(plot_point[0:3])
+                    plot_point = voltage
+                    plotarray.append(voltage)
                     tdata.append(i)
                     i += 1
+                    j = len_data - i
+                    last_data = file_array[-j]
 	    else:
 		voltage = 0
 	    data.close()
@@ -54,9 +56,9 @@ class index2:
 	    matplotlib.rcParams['axes.unicode_minus'] = False
 	    fig, ax = plt.subplots()
 	    ax.plot(tdata, plotarray, 'o')
-	    ax.set_title('Syed Awad hair plot')
-	    ax.set_xlim(0, 300)
-	    ax.set_ylim(0, 1400)
+	    ax.set_title('Voltage')
+	    ax.set_xlim(0, 3000)
+	    ax.set_ylim(0, 15)
 	    format = "png"
 	    sio = cStringIO.StringIO()
 	    plt.savefig("ploot.png")
