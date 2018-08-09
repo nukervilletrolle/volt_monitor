@@ -5,6 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import cStringIO
 import os
+import datetime
 
 #plt.show()
 
@@ -27,7 +28,7 @@ class images:
 class index2:
 	def GET(self):
 	    data = open("voltage.txt","r")
-	    file_array = data.readlines()[-3001:-1]
+	    file_array = data.readlines()[-31:-1]
 	    last_data = file_array[-1]
 	    if last_data[0] != "0":	
                 #gather plot data
@@ -45,7 +46,23 @@ class index2:
                     #j = (5760 - i)
                     plot_point = voltage
                     plotarray.append(voltage)
-                    tdata.append(i)
+                    date_time = i
+                    #Day needs to be in 2-digit format, still working on how to complete
+                    k = 1
+                    last_data_new = []
+                    while k < 28:
+                        if k != 12:
+                            last_data_new.append(last_data[k])
+                        else:
+                            if last_data[k] == " ":
+                                last_data_new.append("0")
+                            else:
+                                last_data_new.append(last_data[k])
+                        k += 1
+                    last_data_new = str(last_data_new[7:27])
+                    #date_time = datetime.datetime.strptime(last_data_new,'%b %d %H:%M:%S').strftime('%H%d')
+                    date_time = datetime.datetime.strptime(last_data_new,'%c').strftime('%H%d')
+                    tdata.append(date_time)
                     i += 1
                     j = len_data - i
                     last_data = file_array[-j]
