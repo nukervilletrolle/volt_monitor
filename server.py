@@ -12,24 +12,13 @@ import locale
 
 urls = (
      "/", "index",
-     "/test", "index2","/static/(.*)","images"
+     "/test", "index2"
 )
-
-class images:
-        def GET(self,name):
-            ext = name.split(".")[-1]
-            
-            cType = {
-                "png":"images/png",
-                "jpg":"images/jpg"}
-            
-            web.header("Content-Type", cType[ext])
-            return open('images/%s'%name,"rb").read()
 
 class index2:
 	def GET(self):
 	    data = open("voltage.txt","r")
-	    file_array = data.readlines()[-301:-1]
+	    file_array = data.readlines()[-3001:-1]
 	    last_data = file_array[-1]
 	    if last_data[0] != "0":	
                 #gather plot data
@@ -47,8 +36,6 @@ class index2:
                     #j = (5760 - i)
                     plot_point = voltage
                     plotarray.append(voltage)
-                    date_time = i
-                    #Day needs to be in 2-digit format, still working on how to complete
                     k = 1
                     last_data_new = []
                     while k < 28:
@@ -61,9 +48,7 @@ class index2:
                                 last_data_new.append(last_data[k])
                         k += 1
                     last_data_2 = ''.join(last_data_new[7:27])
-                    #locale.setlocale(locale.LC_ALL, '')
-                    date_time = datetime.datetime.strptime(last_data_2,'%b %d %H:%M:%S %Y').strftime('%H%d')
-                    #date_time = datetime.datetime.strptime(last_data_new,'%c').strftime('%H%d')
+                    date_time = datetime.datetime.strptime(last_data_2,'%b %d %H:%M:%S %Y') #.strftime('%d%H%M')
                     tdata.append(date_time)
                     i += 1
                     j = len_data - i
@@ -75,9 +60,12 @@ class index2:
 	    matplotlib.rcParams['axes.unicode_minus'] = False
 	    fig, ax = plt.subplots()
 	    ax.plot(tdata, plotarray, 'o')
+	    plt.gcf().autofmt_xdate()
+	    fig.set_size_inches(14,7)
 	    ax.set_title('Voltage')
-	    ax.set_xlim(0, 3000)
-	    ax.set_ylim(0, 15)
+	    ax.grid(True)
+	    #ax.set_xlim(0, 3000)
+	    ax.set_ylim(2, 15)
 	    format = "png"
 	    sio = cStringIO.StringIO()
 	    plt.savefig("ploot.png")
