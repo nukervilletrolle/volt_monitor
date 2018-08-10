@@ -8,8 +8,6 @@ import os
 import datetime
 import locale
 
-#plt.show()
-
 urls = (
      "/", "index",
      "/test", "index2"
@@ -27,27 +25,40 @@ class index2:
                 tdata = []
                 len_data = len(file_array)
                 while i < len_data:
-                    voltage = int(last_data[0:3])
+                    voltage = int(last_data[0:4])
                     voltage = voltage - 1
                     voltage = float(voltage * 5)
                     voltage = voltage / 1023
                     voltage = voltage * (16/5)
                     voltage = voltage * 0.9165
-                    #j = (5760 - i)
                     plot_point = voltage
                     plotarray.append(voltage)
-                    k = 1
+                    k = 0
                     last_data_new = []
-                    while k < 28:
-                        if k != 12:
-                            last_data_new.append(last_data[k])
-                        else:
-                            if last_data[k] == " ":
-                                last_data_new.append("0")
-                            else:
-                                last_data_new.append(last_data[k])
-                        k += 1
-                    last_data_2 = ''.join(last_data_new[7:27])
+		    if last_data[3] != "\t":
+			path = 1
+                    	while k < 29:
+                        	if k != 13:
+                            		last_data_new.append(last_data[k])
+                        	else:
+                            		if last_data[k] == " ":
+                                		last_data_new.append("0")
+                            		else:
+                                		last_data_new.append(last_data[k])
+                        	k += 1
+			last_data_2 = ''.join(last_data_new[9:29])
+		    if last_data[4] != "\t":
+			path = 2
+			while k < 28:
+				if k != 12:
+					last_data_new.append(last_data[k])
+				else:
+					if last_data[k] == " ":
+						last_data_new.append("0")
+					else:
+						last_data_new.append(last_data[k])
+				k += 1
+                    	last_data_2 = ''.join(last_data_new[8:28])
                     date_time = datetime.datetime.strptime(last_data_2,'%b %d %H:%M:%S %Y') #.strftime('%d%H%M')
                     tdata.append(date_time)
                     i += 1
@@ -82,7 +93,7 @@ class index:
 		data = open("voltage.txt","r")
 		last_line = data.readlines()[-1]
 		if last_line[0] != "0":
-			voltage = int(last_line[0:3])
+			voltage = int(last_line[0:4])
 			voltage = voltage - 1
                         voltage = float(voltage * 5)
                         voltage = voltage / 1023
