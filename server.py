@@ -16,7 +16,7 @@ urls = (
 class index2:
 	def GET(self):
 	    data = open("voltage.txt","r")
-	    file_array = data.readlines()[-3001:-1]
+	    file_array = data.readlines()[-9001:-1]
 	    last_data = file_array[-1]
 	    if last_data[0] != "0":	
                 #gather plot data
@@ -28,9 +28,7 @@ class index2:
                     voltage = int(last_data[0:4])
                     voltage = voltage - 1
                     voltage = float(voltage * 5)
-                    voltage = voltage / 1023
-                    voltage = voltage * (16/5)
-                    voltage = voltage * 0.9165
+                    voltage = voltage * 0.00303969
                     plot_point = voltage
                     plotarray.append(voltage)
                     k = 0
@@ -75,17 +73,10 @@ class index2:
 	    fig.set_size_inches(14,7)
 	    ax.set_title('Voltage')
 	    ax.grid(True)
-	    #ax.set_xlim(0, 3000)
-	    ax.set_ylim(2, 15)
+	    ax.set_ylim(9, 15)
 	    format = "png"
 	    sio = cStringIO.StringIO()
 	    plt.savefig("ploot.png")
-		
-	    cType = {
-                "png":"images/png",
-                "jpg":"images/jpg"}
-            
-            #web.header("Content-Type", cType[png])
             return open("ploot.png","rb").read()
 
 class index:
@@ -96,9 +87,7 @@ class index:
 			voltage = int(last_line[0:4])
 			voltage = voltage - 1
                         voltage = float(voltage * 5)
-                        voltage = voltage / 1023
-                        voltage = voltage * (16/5)
-                        voltage = voltage * 0.9165
+                        voltage = voltage * 0.00303969
 		else:
 			voltage = 0
 		data.close()
